@@ -35,6 +35,13 @@ class FeedbackController extends Controller
     return redirect()->route('feedback.admin')->with('success', 'Feedback berhasil dihapus!');
 }
 
+public function exportPDF()
+{
+    $feedback = Feedback::all(); // Mengambil semua data feedback
+    return response()->json($feedback); // Mengirim data dalam format JSON
+}
+
+
 
 
 }

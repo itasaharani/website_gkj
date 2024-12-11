@@ -1,6 +1,16 @@
 @extends('layouts.main')
 
 @section('content')
+
+<style>
+    /* Pastikan pesan tidak meluas ke kanan */
+    td.feedback-column {
+        white-space: normal; /* Mengizinkan teks membungkus */
+        word-wrap: break-word; /* Memecah kata panjang */
+        max-width: 200px; /* Atur lebar maksimum kolom */
+    }
+    
+</style>
 <div class="container mt-4">
     <h2 class="mb-4">Daftar Feedback</h2>
 
@@ -28,7 +38,7 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $feedback->name ?? 'Anonymous' }}</td>
-                <td>{{ Str::limit($feedback->message, 50) }}</td>
+                <td class="feedback-column">{{ $feedback->message }}</td>
                 <td>{{ $feedback->created_at->format('d-m-Y H:i') }}</td>
                 <td>
                     <form action="{{ route('feedback.destroy', $feedback->id) }}" method="post" style="display:inline">
@@ -48,31 +58,54 @@
     </div>
 </div>
 
-<!-- jsPDF script -->
+<!-- jsPDF and AutoTable -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById('exportPdfButton').onclick = function() {
-            const { jsPDF } = window.jspdf; // Ambil jsPDF dari window
-            const doc = new jsPDF();
+    document.addEventListener("DOMContentLoaded", function () {
+        const exportButton = document.getElementById('exportPdfButton');
 
-            // Menambahkan konten ke PDF
-            doc.text("Daftar Feedback", 10, 10);
-            let y = 20;
+        if (exportButton) {
+            exportButton.onclick = function () {
+                // Fetch data from Laravel backend
+                fetch('/feedback/export')
+                    .then(response => response.json())
+                    .then(data => {
+                        const { jsPDF } = window.jspdf; // Load jsPDF
+                        const doc = new jsPDF();
 
-            // Mengambil data dari tabel
-            const feedbackRows = document.querySelectorAll('#feedbackTable tbody tr');
-            feedbackRows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                const rowData = [];
-                cells.forEach(cell => {
-                    rowData.push(cell.innerText);
-                });
-                doc.text(rowData.join(' '), 10, y);
-                y += 10; // Jarak antar baris
-            });
+                        // Header PDF
+                        doc.text("Daftar Feedback", 10, 10);
 
-            doc.save("feedback.pdf");
+                        // Prepare data for autoTable
+                        const tableData = data.map((feedback, index) => [
+                            index + 1,
+                            feedback.name ?? 'Anonymous',
+                            feedback.message,
+                            feedback.created_at
+                        ]);
+
+                        // Generate table in PDF with adjusted column widths
+                        doc.autoTable({
+                            head: [['No', 'Nama', 'Pesan', 'Tanggal']],
+                            body: tableData,
+                            startY: 20, // Start table after header
+                            columnStyles: {
+                                0: { cellWidth: 20 },  // Kolom 'No' agar cukup lebar
+                                1: { cellWidth: 40 },  // Kolom 'Nama' tidak terlalu lebar
+                                2: { cellWidth: 90 },  // Kolom 'Pesan' lebih lebar
+                                3: { cellWidth: 40 },  // Kolom 'Tanggal'
+                            },
+                        });
+
+                        // Save the PDF
+                        doc.save("feedback.pdf");
+                    })
+                    .catch(error => {
+                        console.error("Error fetching feedback data:", error);
+                    });
+            };
         }
     });
 </script>
@@ -82,7 +115,4 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.11/jspdf.plugin.autotable.min.js"></script>
-
 @endsection

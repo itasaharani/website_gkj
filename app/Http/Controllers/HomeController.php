@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Pengumuman;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request;    
 use App\Models\jadwal;
 use App\Models\Ketua;
 use App\Models\RenunganMingguan;
@@ -14,6 +14,8 @@ use App\Models\Gallery;
 
 class HomeController extends Controller
 {
+    
+    
     public function index()
     {
         // Ambil semua data jadwal dari database
@@ -67,14 +69,7 @@ class HomeController extends Controller
     return $map[$roman] ?? 0;
 }
 
-    public function admin(){
-        $totalPengumuman = Pengumuman::count();
-        $totalFeedback = Feedback::count();
-        $totalRenungan = RenunganMingguan::count();
-       
-    
-        return view('admin', compact('totalPengumuman', 'totalFeedback', 'totalRenungan'));
-    }
+   
     
     public function struktur(){
         $ketua = Ketua::with(['bidang.komisi', 'sekretarisBendahara'])->get();

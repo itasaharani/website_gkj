@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('jadwal', function (Blueprint $table) {
-           $table->id(); // Kolom id sebagai primary key dan auto-increment
+            $table->id(); // Kolom id sebagai primary key dan auto-increment
             $table->string('location', 50); // Kolom lokasi
             $table->enum('week', ['I', 'II', 'III', 'IV', 'V']); // Minggu ke berapa dalam bulan
-            $table->time('time'); // Waktu kebaktian
+            $table->string('pelayan_firman', 100); // Nama pelayan firman
+            $table->string('imam', 50); // Kolom imam
             $table->string('language', 20); // Bahasa pengantar
             $table->timestamps();
         });

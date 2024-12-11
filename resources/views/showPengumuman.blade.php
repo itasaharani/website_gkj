@@ -83,7 +83,7 @@
                     <h2>{{ $pengumuman->judul }}</h2>
                     <p><strong>Tanggal: </strong>{{ $pengumuman->tanggal }}</p>
                     <p>{!! nl2br(e($pengumuman->konten)) !!}</p>
-                    <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
+                    <a href="/#pengumumans" class="btn btn-secondary">Kembali</a>
                 </div>
             </div>
         </div>

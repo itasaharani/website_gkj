@@ -13,7 +13,8 @@ class jadwal extends Model
     protected $fillable = [
         'location',
         'week',
-        'time',
+        'pelayan_firman',
+        'imam',
         'language',
         
     ];

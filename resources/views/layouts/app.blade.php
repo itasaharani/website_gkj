@@ -79,7 +79,6 @@
             <a href="#" class="dropdown-toggle"><span>Informasi</span></a>
             <ul>
               <li><a href="/#pengumumans">Pengumuman</a></li>
-              <li><a href="/#gallery">Gallery</a></li>
               <li><a href="/#contact">Contact & Feedback</a></li>
             </ul> 
           </li>

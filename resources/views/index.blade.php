@@ -119,26 +119,28 @@
                         <strong>{{ $location }}</strong>
                     </div>
                     <div class="card-body">
+                        <p class="text-center text-muted mb-3">Ibadah dimulai pukul <strong>07:00</strong></p>
                         <table class="table table-bordered table-sm">
-                        <thead>
-    <tr>
-        <th scope="col">Tanggal</th>
-        <th scope="col">Minggu</th>
-        <th scope="col">Jam</th>
-        <th scope="col">Pengantar</th>
-    </tr>
-</thead>
-<tbody>
-    @foreach($jadwalsByLocation as $jadwal)
-    <tr>
-        <td>{{ $jadwal->date }}</td>
-        <td>{{ $jadwal->week }}</td>
-        <td>{{ $jadwal->time }}</td>
-        <td>{{ $jadwal->language }}</td>
-    </tr>
-    @endforeach
-</tbody>
-
+                            <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">Pelayan Firman</th>
+                                    <th scope="col">Imam</th>
+                                    <th scope="col">Pengantar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($jadwalsByLocation as $jadwal)
+                                <tr>
+                                    <td>{{ $jadwal->week }}</td>
+                                    <td>{{ $jadwal->date }}</td>
+                                    <td>{{ $jadwal->pelayan_firman }}</td>
+                                    <td>{{ $jadwal->imam }}</td>
+                                    <td>{{ $jadwal->language }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -147,6 +149,7 @@
         </div>
     </div>
 </section><!-- /Schedule Section -->
+
 
 <!-- pengumumans Section -->
 <section id="pengumumans" class="pengumumans section light-background">
@@ -180,14 +183,14 @@
 </section><!-- End pengumumans Section -->
 
 
-<!-- Gallery Section -->
-<section id="gallery" class="gallery section light-background">
 
-<!-- Section Title -->
+<!-- <section id="gallery" class="gallery section light-background">
+
+
 <div class="container section-title" data-aos="fade-up">
   <h2>Gallery</h2>
   <p><span>Dokumentasi</span> <span class="description-title">Kegiatan Gereja</span></p>
-</div><!-- End Section Title -->
+</div>
 
 <div class="container" data-aos="fade-up" data-aos-delay="100">
 
@@ -236,7 +239,7 @@
 
 </div>
 
-</section><!-- /Gallery Section -->
+</section>allery Section -->
 
 
 
